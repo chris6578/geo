@@ -1,0 +1,26 @@
+{
+    "name"             : "creof/geo",
+    "type"             : "library",
+    "description"      : "PHP Geometry/Geography classes",
+    "keywords"         : ["geometry", "geography"],
+    "authors"          : [
+        {
+            "name" : "Derek J. Lambert",
+            "email": "dlambert@dereklambert.com"
+        }
+    ],
+    "license"          : "MIT",
+    "require"          : {
+        "php"             : ">=5.3.3",
+        "creof/geo-parser": "dev-master"
+    },
+    "require-dev"      : {
+        "phpunit/phpunit": ">=4.0"
+    },
+    "minimum-stability": "dev",
+    "autoload"         : {
+        "psr-0": {
+            "CrEOF\\Geo": "lib/"
+        }
+    }
+}
