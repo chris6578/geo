@@ -34,13 +34,13 @@ namespace CrEOF\Geo;
  */
 class Point extends AbstractGeometry
 {
-    const ORDER_LONG_FIRST = 0;
-    const ORDER_LAT_FIRST  = 1;
+    const ORDER_LON_FIRST = 0;
+    const ORDER_LAT_FIRST = 1;
 
     /**
      * @var int
      */
-    static private $order = self::ORDER_LONG_FIRST;
+    static private $order = self::ORDER_LON_FIRST;
 
     /**
      * @var float|int $x
@@ -178,7 +178,7 @@ class Point extends AbstractGeometry
      */
     public function setLongitude($longitude)
     {
-        if (static::$order === self::ORDER_LONG_FIRST) {
+        if (static::$order === self::ORDER_LON_FIRST) {
             return $this->setX($longitude);
         }
 
@@ -190,7 +190,7 @@ class Point extends AbstractGeometry
      */
     public function getLongitude()
     {
-        if (static::$order === self::ORDER_LONG_FIRST) {
+        if (static::$order === self::ORDER_LON_FIRST) {
             return $this->getX();
         }
 
