@@ -53,6 +53,8 @@ class Point extends AbstractGeometry
      */
     public function __construct($value = null, $srid = null)
     {
+        $this->coords = array(0, 0);
+
         if (null != $value) {
             $this->set($value);
         }
