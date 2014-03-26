@@ -30,9 +30,19 @@ use CrEOF\Geo\Point;
  *
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
+ *
+ * @backupStaticAttributes enabled
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
+    public function testEmptyPoint()
+    {
+        $point = new Point();
+
+        $this->assertEquals(array(0, 0), $point->toArray());
+        $this->assertEquals('0 0', (string) $point);
+    }
+
     /**
      * @param string $value
      * @param array  $expected
@@ -45,7 +55,28 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $point->toArray());
         $this->assertEquals($expected[0], $point->getX());
+        $this->assertEquals($expected[0], $point->getLongitude());
         $this->assertEquals($expected[1], $point->getY());
+        $this->assertEquals($expected[1], $point->getLatitude());
+    }
+
+    public function testToString()
+    {
+        $point = new Point('40° 26\' 46" N 79° 58\' 56" W');
+
+        $this->assertEquals('40.446111111111 -79.982222222222', (string) $point);
+    }
+
+    public function testLatitudeFirst()
+    {
+        Point::setOrder(Point::ORDER_LAT_FIRST);
+
+        $point = new Point(array(5, 6));
+
+        $this->assertEquals(5, $point->getX());
+        $this->assertEquals(5, $point->getLatitude());
+        $this->assertEquals(6, $point->getY());
+        $this->assertEquals(6, $point->getLongitude());
     }
 
     public function plainDataSource()
