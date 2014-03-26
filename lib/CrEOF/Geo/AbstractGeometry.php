@@ -103,10 +103,11 @@ abstract class AbstractGeometry implements GeometryInterface
     /**
      * @param array  $objects
      * @param string $format
+     * @param string $separator
      *
      * @return string
      */
-    protected function objectsToString(array $objects, $format = '%s')
+    protected function objectsToString(array $objects, $format = '%s', $separator = ',')
     {
         $strings = array();
 
@@ -114,6 +115,6 @@ abstract class AbstractGeometry implements GeometryInterface
             $strings[] = sprintf($format, $object);
         }
 
-        return implode(',', $strings);
+        return implode($separator, $strings);
     }
 }
