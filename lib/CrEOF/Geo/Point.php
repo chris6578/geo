@@ -43,14 +43,9 @@ class Point extends AbstractGeometry
     static private $order = self::ORDER_LON_FIRST;
 
     /**
-     * @var float|int $x
+     * @var array;
      */
-    private $x;
-
-    /**
-     * @var float|int $y
-     */
-    private $y;
+    private $coords;
 
     /**
      * @param array|string|null $value
@@ -104,7 +99,7 @@ class Point extends AbstractGeometry
             $value = $value[0];
         }
 
-        $this->x = $value;
+        $this->coords[0] = $value;
 
         return $this;
     }
@@ -114,7 +109,7 @@ class Point extends AbstractGeometry
      */
     public function getX()
     {
-        return $this->x;
+        return $this->coords[0];
     }
 
     /**
@@ -132,7 +127,7 @@ class Point extends AbstractGeometry
             $value = $value[1];
         }
 
-        $this->y = $value;
+        $this->coords[1] = $value;
 
         return $this;
     }
@@ -142,7 +137,7 @@ class Point extends AbstractGeometry
      */
     public function getY()
     {
-        return $this->y;
+        return $this->coords[1];
     }
 
     /**
@@ -202,7 +197,7 @@ class Point extends AbstractGeometry
      */
     public function toArray()
     {
-        return array($this->x, $this->y);
+        return $this->coords;
     }
 
     /**
@@ -210,7 +205,7 @@ class Point extends AbstractGeometry
      */
     public function __toString()
     {
-        return sprintf('%s %s', $this->x, $this->y);
+        return $this->objectsToString($this->coords, '%s', ' ');
     }
 
     /**
