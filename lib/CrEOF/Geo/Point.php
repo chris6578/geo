@@ -72,7 +72,7 @@ class Point extends AbstractGeometry
      */
     public function set($value)
     {
-        if ( ! is_array($value)) {
+        if (is_string($value)) {
             $value = $this->parseString($value);
         }
 
@@ -208,6 +208,28 @@ class Point extends AbstractGeometry
     public function __toString()
     {
         return $this->objectsToString($this->coords, '%s', ' ');
+    }
+
+    /**
+     * @param int $order
+     *
+     * @throws \Exception
+     */
+    public static function setOrder($order)
+    {
+        if (self::ORDER_LAT_FIRST !== $order && self::ORDER_LON_FIRST !== $order) {
+            throw new \Exception(); // TODO
+        }
+
+        self::$order = $order;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getOrder()
+    {
+        return self::$order;
     }
 
     /**
