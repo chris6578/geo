@@ -42,8 +42,9 @@ class MultiLineString extends AbstractGeometry
      */
     public function __construct(array $lineStrings = array(), $srid = 0)
     {
-        $this->setLineStrings($lineStrings)
-            ->setSrid($srid);
+        parent::__construct($srid);
+
+        $this->setLineStrings($lineStrings);
     }
 
     /**
@@ -71,16 +72,10 @@ class MultiLineString extends AbstractGeometry
     public function addLineString($lineString)
     {
         if ( ! ($lineString instanceof LineString)) {
-            $lineString = new LineString($lineString, $this->srid);
+            $lineString = new LineString($lineString);
         }
 
-        if ($this->srid !== $lineString->getSrid()) {
-            throw new \Exception(); // TODO
-        }
-
-        $this->lineStrings[] = $lineString;
-
-        return $this;
+        return $this->addObject($this->lineStrings, $lineString);
     }
 
     /**
@@ -88,7 +83,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function getLineStrings()
     {
-        return $this->lineStrings;
+        return $this->getObjects($this->lineStrings);
     }
 
     /**

@@ -42,8 +42,9 @@ class MultiPolygon extends AbstractGeometry
      */
     public function __construct(array $polygons = array(), $srid = 0)
     {
-        $this->setPolygons($polygons)
-            ->setSrid($srid);
+        parent::__construct($srid);
+
+        $this->setPolygons($polygons);
     }
 
     /**
@@ -71,16 +72,10 @@ class MultiPolygon extends AbstractGeometry
     public function addPolygon($polygon)
     {
         if ( ! ($polygon instanceof Polygon)) {
-            $polygon = new Polygon($polygon, $this->srid);
+            $polygon = new Polygon($polygon);
         }
 
-        if ($this->srid !== $polygon->getSrid()) {
-            throw new \Exception(); // TODO
-        }
-
-        $this->polygons[] = $polygon;
-
-        return $this;
+        return $this->addObject($this->polygons, $polygon);
     }
 
     /**
@@ -88,7 +83,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function getPolygons()
     {
-        return $this->polygons;
+        return $this->getObjects($this->polygons);
     }
 
     /**

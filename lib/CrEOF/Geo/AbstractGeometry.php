@@ -47,6 +47,14 @@ abstract class AbstractGeometry implements GeometryInterface
     abstract public function toArray();
 
     /**
+     * @param int $srid
+     */
+    public function __construct($srid = 0)
+    {
+        $this->setSrid($srid);
+    }
+
+    /**
      * @return null|int
      */
     public function getSrid()
@@ -86,6 +94,35 @@ abstract class AbstractGeometry implements GeometryInterface
             default:
                 return $array[$index];
         }
+    }
+
+    /**
+     * @param AbstractGeometry[] $objects
+     *
+     * @return array
+     */
+    protected function getObjects(array $objects)
+    {
+        $array = array();
+
+        foreach ($objects as $object) {
+            $array[] = $object->setSrid(0);
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param array            $objects
+     * @param AbstractGeometry $object
+     *
+     * @return self
+     */
+    protected function addObject(array $objects, AbstractGeometry $object)
+    {
+        $objects[] = $object->setSrid(0);
+
+        return $this;
     }
 
     /**

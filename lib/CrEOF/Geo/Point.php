@@ -57,13 +57,13 @@ class Point extends AbstractGeometry
      */
     public function __construct($value = null, $srid = 0)
     {
+        parent::__construct($srid);
+
         $this->coords = array(0, 0);
 
         if (null != $value) {
             $this->set($value);
         }
-
-        $this->setSrid($srid);
     }
 
     /**

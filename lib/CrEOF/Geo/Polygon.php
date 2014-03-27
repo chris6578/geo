@@ -42,8 +42,9 @@ class Polygon extends AbstractGeometry
      */
     public function __construct(array $rings = array(), $srid = 0)
     {
-        $this->setRings($rings)
-            ->setSrid($srid);
+        parent::__construct($srid);
+
+        $this->setRings($rings);
     }
 
     /**
@@ -71,20 +72,14 @@ class Polygon extends AbstractGeometry
     public function addRing($ring)
     {
         if ( ! ($ring instanceof LineString)) {
-            $ring = new LineString($ring, $this->srid);
-        }
-
-        if ($this->srid !== $ring->getSrid()) {
-            throw new \Exception(); // TODO
+            $ring = new LineString($ring);
         }
 
         if ( ! $ring->isClosed()) {
             throw new \Exception(); // TODO
         }
 
-        $this->rings[] = $ring;
-
-        return $this;
+        return $this->addObject($this->rings, $ring);
     }
 
     /**
@@ -92,7 +87,7 @@ class Polygon extends AbstractGeometry
      */
     public function getRings()
     {
-        return $this->rings;
+        return $this->getObjects($this->rings);
     }
 
     /**

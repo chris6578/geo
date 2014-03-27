@@ -42,8 +42,9 @@ class MultiPoint extends AbstractGeometry
      */
     public function __construct(array $points = array(), $srid = 0)
     {
-        $this->setPoints($points)
-            ->setSrid($srid);
+        parent::__construct($srid);
+
+        $this->setPoints($points);
     }
 
     /**
@@ -71,16 +72,10 @@ class MultiPoint extends AbstractGeometry
     public function addPoint($point)
     {
         if ( ! ($point instanceof Point)) {
-            $point = new Point($point, $this->srid);
+            $point = new Point($point);
         }
 
-        if ($this->srid !== $point->getSrid()) {
-            throw new \Exception(); // TODO
-        }
-
-        $this->points[] = $point;
-
-        return $this;
+        return $this->addObject($this->points, $point);
     }
 
     /**
@@ -88,7 +83,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function getPoints()
     {
-        return $this->points;
+        return $this->getObjects($this->points);
     }
 
     /**
