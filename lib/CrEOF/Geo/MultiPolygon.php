@@ -54,7 +54,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function setPolygons(array $polygons)
     {
-        $this->polygons = array();
+        $this->objects = array();
 
         foreach ($polygons as $polygon) {
             $this->addPolygon($polygon);
@@ -75,7 +75,7 @@ class MultiPolygon extends AbstractGeometry
             $polygon = new Polygon($polygon);
         }
 
-        return $this->addObject($this->polygons, $polygon);
+        return $this->addObject($polygon);
     }
 
     /**
@@ -83,7 +83,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function getPolygons()
     {
-        return $this->getObjects($this->polygons);
+        return $this->getObjects();
     }
 
     /**
@@ -93,7 +93,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function getPolygon($index)
     {
-        return $this->getObjectsIndex($this->polygons, $index);
+        return $this->getObjectsIndex($index);
     }
 
     /**
@@ -101,7 +101,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function toArray()
     {
-        return $this->objectsToArray($this->polygons);
+        return $this->objectsToArray();
     }
 
     /**
@@ -109,6 +109,6 @@ class MultiPolygon extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString($this->polygons, '(%s)');
+        return $this->objectsToString('(%s)');
     }
 }

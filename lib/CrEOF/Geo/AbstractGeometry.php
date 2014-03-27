@@ -37,6 +37,11 @@ abstract class AbstractGeometry implements GeometryInterface
     protected $srid;
 
     /**
+     * @var AbstractGeometry[]
+     */
+    protected $objects;
+
+    /**
      * @return string
      */
     abstract public function __toString();
@@ -81,60 +86,54 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param array $array
      * @param int   $index
      *
      * @return mixed
      */
-    protected function getObjectsIndex(array $array, $index)
+    protected function getObjectsIndex($index)
     {
         switch ($index) {
             case -1:
-                return $array[count($array) - 1];
+                return $this->objects[count($this->objects) - 1];
             default:
-                return $array[$index];
+                return $this->objects[$index];
         }
     }
 
     /**
-     * @param AbstractGeometry[] $objects
-     *
      * @return array
      */
-    protected function getObjects(array $objects)
+    protected function getObjects()
     {
-        $array = array();
+        $objects = array();
 
-        foreach ($objects as $object) {
-            $array[] = $object->setSrid(0);
+        foreach ($this->objects as $object) {
+            $objects[] = $object->setSrid(0);
         }
 
-        return $array;
+        return $objects;
     }
 
     /**
-     * @param array            $objects
      * @param AbstractGeometry $object
      *
      * @return self
      */
-    protected function addObject(array $objects, AbstractGeometry $object)
+    protected function addObject(AbstractGeometry $object)
     {
-        $objects[] = $object->setSrid(0);
+        $this->objects[] = $object->setSrid(0);
 
         return $this;
     }
 
     /**
-     * @param AbstractGeometry[] $objects
-     *
      * @return array
      */
-    protected function objectsToArray(array $objects)
+    protected function objectsToArray()
     {
         $array = array();
 
-        foreach ($objects as $object) {
+        foreach ($this->objects as $object) {
             $array[] = $object->toArray();
         }
 
@@ -142,14 +141,18 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param array  $objects
      * @param string $format
      * @param string $separator
+     * @param array  $objects
      *
      * @return string
      */
-    protected function objectsToString(array $objects, $format = '%s', $separator = ',')
+    protected function objectsToString($format = '%s', $separator = ',', array $objects = null)
     {
+        if (null === $objects) {
+            $objects = $this->objects;
+        }
+
         $strings = array();
 
         foreach ($objects as $object) {

@@ -54,7 +54,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function setLineStrings(array $lineStrings)
     {
-        $this->lineStrings = array();
+        $this->objects = array();
 
         foreach ($lineStrings as $lineString) {
             $this->addLineString($lineString);
@@ -75,7 +75,7 @@ class MultiLineString extends AbstractGeometry
             $lineString = new LineString($lineString);
         }
 
-        return $this->addObject($this->lineStrings, $lineString);
+        return $this->addObject($lineString);
     }
 
     /**
@@ -83,7 +83,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function getLineStrings()
     {
-        return $this->getObjects($this->lineStrings);
+        return $this->getObjects();
     }
 
     /**
@@ -93,7 +93,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function getLineString($index)
     {
-        return $this->getObjectsIndex($this->lineStrings, $index);
+        return $this->getObjectsIndex($index);
     }
 
     /**
@@ -101,7 +101,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function toArray()
     {
-        return $this->objectsToArray($this->lineStrings);
+        return $this->objectsToArray();
     }
 
     /**
@@ -109,6 +109,6 @@ class MultiLineString extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString($this->lineStrings, '(%s)');
+        return $this->objectsToString('(%s)');
     }
 }

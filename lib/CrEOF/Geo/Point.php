@@ -227,7 +227,7 @@ class Point extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString($this->coords, '%s', ' ');
+        return $this->objectsToString('%s', ' ', $this->coords);
     }
 
     /**

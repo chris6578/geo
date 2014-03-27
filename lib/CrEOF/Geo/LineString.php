@@ -36,7 +36,7 @@ class LineString extends MultiPoint
      */
     public function isClosed()
     {
-        if ($this->points[0]->toArray() === $this->points[count($this->points) - 1]->toArray()) {
+        if ($this->objects[0]->toArray() === $this->objects[count($this->objects) - 1]->toArray()) {
             return true;
         }
 
