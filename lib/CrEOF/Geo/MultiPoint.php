@@ -33,9 +33,9 @@ class MultiPoint extends AbstractGeometry
 {
     /**
      * @param Point[]|array[] $points
-     * @param int             $srid
+     * @param int|null        $srid
      */
-    public function __construct(array $points = array(), $srid = 0)
+    public function __construct(array $points = array(), $srid = null)
     {
         parent::__construct($srid);
 

@@ -52,10 +52,14 @@ abstract class AbstractGeometry implements GeometryInterface
     abstract public function toArray();
 
     /**
-     * @param int $srid
+     * @param int|null $srid
      */
-    public function __construct($srid = 0)
+    public function __construct($srid = null)
     {
+        if (null === $srid) {
+            $srid = Configuration::getDefaultSrid();
+        }
+
         $this->setSrid($srid);
     }
 
@@ -76,7 +80,7 @@ abstract class AbstractGeometry implements GeometryInterface
     {
         $srid = (int) $srid;
 
-        if (0 > $srid) {
+        if ($srid < 0) {
             $srid = 0;
         }
 

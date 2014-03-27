@@ -33,9 +33,9 @@ class MultiLineString extends AbstractGeometry
 {
     /**
      * @param LineString[]|array[] $lineStrings
-     * @param int                  $srid
+     * @param int|null             $srid
      */
-    public function __construct(array $lineStrings = array(), $srid = 0)
+    public function __construct(array $lineStrings = array(), $srid = null)
     {
         parent::__construct($srid);
 

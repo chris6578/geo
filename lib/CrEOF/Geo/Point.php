@@ -39,15 +39,15 @@ class Point extends AbstractGeometry
 {
     /**
      * @param array|string|null $value
-     * @param int               $srid
+     * @param int|null          $srid
      */
-    public function __construct($value = null, $srid = 0)
+    public function __construct($value = null, $srid = null)
     {
         parent::__construct($srid);
 
         $this->values = array(0, 0);
 
-        if (null != $value) {
+        if (null !== $value) {
             $this->set($value);
         }
     }

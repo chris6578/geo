@@ -33,9 +33,9 @@ class Polygon extends AbstractGeometry
 {
     /**
      * @param LineString[]|array[] $rings
-     * @param int                  $srid
+     * @param int|null             $srid
      */
-    public function __construct(array $rings = array(), $srid = 0)
+    public function __construct(array $rings = array(), $srid = null)
     {
         parent::__construct($srid);
 

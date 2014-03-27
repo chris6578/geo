@@ -33,9 +33,9 @@ class MultiPolygon extends AbstractGeometry
 {
     /**
      * @param Polygon[]|array[] $polygons
-     * @param int               $srid
+     * @param int|null          $srid
      */
-    public function __construct(array $polygons = array(), $srid = 0)
+    public function __construct(array $polygons = array(), $srid = null)
     {
         parent::__construct($srid);
 
