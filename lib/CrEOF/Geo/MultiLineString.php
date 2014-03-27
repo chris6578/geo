@@ -40,13 +40,10 @@ class MultiLineString extends AbstractGeometry
      * @param array[]  $lineStrings
      * @param int|null $srid
      */
-    public function __construct(array $lineStrings = array(), $srid = null)
+    public function __construct(array $lineStrings = array(), $srid = 0)
     {
-        $this->setLineStrings($lineStrings);
-
-        if (null !== $srid) {
-            $this->setSrid($srid);
-        }
+        $this->setLineStrings($lineStrings)
+            ->setSrid($srid);
     }
 
     /**

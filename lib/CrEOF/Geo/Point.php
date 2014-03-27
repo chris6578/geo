@@ -55,7 +55,7 @@ class Point extends AbstractGeometry
      * @param array|string|null $value
      * @param string|int|null   $srid
      */
-    public function __construct($value = null, $srid = null)
+    public function __construct($value = null, $srid = 0)
     {
         $this->coords = array(0, 0);
 
@@ -63,9 +63,7 @@ class Point extends AbstractGeometry
             $this->set($value);
         }
 
-        if (null != $srid) {
-            $this->setSrid($srid);
-        }
+        $this->setSrid($srid);
     }
 
     /**

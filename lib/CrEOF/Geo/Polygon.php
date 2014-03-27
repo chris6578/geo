@@ -40,13 +40,10 @@ class Polygon extends AbstractGeometry
      * @param array[]  $rings
      * @param int|null $srid
      */
-    public function __construct(array $rings = array(), $srid = null)
+    public function __construct(array $rings = array(), $srid = 0)
     {
-        $this->setRings($rings);
-
-        if (null !== $srid) {
-            $this->setSrid($srid);
-        }
+        $this->setRings($rings)
+            ->setSrid($srid);
     }
 
     /**

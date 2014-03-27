@@ -61,9 +61,13 @@ abstract class AbstractGeometry implements GeometryInterface
      */
     public function setSrid($srid)
     {
-        if ($srid !== null) {
-            $this->srid = (int) $srid;
+        $srid = (int) $srid;
+
+        if (0 > $srid) {
+            $srid = 0;
         }
+
+        $this->srid = $srid;
 
         return $this;
     }

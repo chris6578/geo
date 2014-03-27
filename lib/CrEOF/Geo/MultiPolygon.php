@@ -40,13 +40,10 @@ class MultiPolygon extends AbstractGeometry
      * @param array[]  $polygons
      * @param int|null $srid
      */
-    public function __construct(array $polygons = array(), $srid = null)
+    public function __construct(array $polygons = array(), $srid = 0)
     {
-        $this->setPolygons($polygons);
-
-        if (null !== $srid) {
-            $this->setSrid($srid);
-        }
+        $this->setPolygons($polygons)
+            ->setSrid($srid);
     }
 
     /**

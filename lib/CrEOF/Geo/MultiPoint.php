@@ -40,13 +40,10 @@ class MultiPoint extends AbstractGeometry
      * @param array[]  $points
      * @param int|null $srid
      */
-    public function __construct(array $points = array(), $srid = null)
+    public function __construct(array $points = array(), $srid = 0)
     {
-        $this->setPoints($points);
-
-        if (null !== $srid) {
-            $this->setSrid($srid);
-        }
+        $this->setPoints($points)
+            ->setSrid($srid);
     }
 
     /**
