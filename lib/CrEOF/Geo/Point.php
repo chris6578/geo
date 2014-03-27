@@ -90,6 +90,7 @@ class Point extends AbstractGeometry
      * @param string|int|float|array $value
      *
      * @return self
+     * @throws \UnexpectedValueException
      */
     public function setX($value)
     {
@@ -99,6 +100,14 @@ class Point extends AbstractGeometry
 
         if (is_string($value)) {
             $value = $this->parseString($value);
+
+            if (is_array($value)) {
+                $value = $value[0];
+            }
+        }
+
+        if (false === is_int($value) && false === is_float($value)) {
+            throw new \UnexpectedValueException(); // TODO
         }
 
         $this->coords[0] = $value;
@@ -118,6 +127,7 @@ class Point extends AbstractGeometry
      * @param string|int|float|array $value
      *
      * @return self
+     * @throws \UnexpectedValueException
      */
     public function setY($value)
     {
@@ -127,6 +137,14 @@ class Point extends AbstractGeometry
 
         if (is_string($value)) {
             $value = $this->parseString($value);
+
+            if (is_array($value)) {
+                $value = $value[1];
+            }
+        }
+
+        if (false === is_int($value) && false === is_float($value)) {
+            throw new \UnexpectedValueException(); // TODO
         }
 
         $this->coords[1] = $value;
