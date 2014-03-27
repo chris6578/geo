@@ -77,7 +77,7 @@ class Point extends AbstractGeometry
         }
 
         if ( ! is_array($value)) {
-            throw new \Exception(); // TODO
+            throw new \UnexpectedValueException(); // TODO
         }
 
         $this->setX($value)
@@ -218,7 +218,7 @@ class Point extends AbstractGeometry
     public static function setOrder($order)
     {
         if (self::ORDER_LAT_FIRST !== $order && self::ORDER_LON_FIRST !== $order) {
-            throw new \Exception(); // TODO
+            throw new \RangeException(); // TODO
         }
 
         self::$order = $order;
@@ -241,7 +241,7 @@ class Point extends AbstractGeometry
     private function parseString($value)
     {
         if ( ! is_string($value)) {
-            throw new \Exception(); // TODO
+            throw new \UnexpectedValueException(); // TODO
         }
 
         if ( ! is_numeric($value)) {
