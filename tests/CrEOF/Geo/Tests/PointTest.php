@@ -23,6 +23,7 @@
 
 namespace CrEOF\Geo\Tests;
 
+use CrEOF\Geo\Configuration;
 use CrEOF\Geo\Point;
 
 /**
@@ -141,7 +142,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testLatitudeFirstGet($value, array $expected)
     {
-        Point::setOrder(Point::ORDER_LAT_FIRST);
+        Configuration::setOrder(Configuration::ORDER_LAT_FIRST);
 
         $point = new Point($value);
 
@@ -164,7 +165,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testLatitudeFirstSet($value, array $expected)
     {
-        Point::setOrder(Point::ORDER_LAT_FIRST);
+        Configuration::setOrder(Configuration::ORDER_LAT_FIRST);
 
         $point = new Point();
 
