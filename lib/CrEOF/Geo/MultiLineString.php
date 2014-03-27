@@ -32,13 +32,8 @@ namespace CrEOF\Geo;
 class MultiLineString extends AbstractGeometry
 {
     /**
-     * @var LineString[] $lineStrings
-     */
-    protected $lineStrings;
-
-    /**
-     * @param array[]  $lineStrings
-     * @param int|null $srid
+     * @param LineString[]|array[] $lineStrings
+     * @param int                  $srid
      */
     public function __construct(array $lineStrings = array(), $srid = 0)
     {
@@ -48,7 +43,7 @@ class MultiLineString extends AbstractGeometry
     }
 
     /**
-     * @param array[] $lineStrings
+     * @param LineString[]|array[] $lineStrings
      *
      * @return self
      */
@@ -67,7 +62,6 @@ class MultiLineString extends AbstractGeometry
      * @param LineString|array[] $lineString
      *
      * @return self
-     * @throws \Exception
      */
     public function addLineString($lineString)
     {

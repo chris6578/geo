@@ -32,13 +32,8 @@ namespace CrEOF\Geo;
 class MultiPolygon extends AbstractGeometry
 {
     /**
-     * @var Polygon[] $polygons
-     */
-    protected $polygons;
-
-    /**
-     * @param array[]  $polygons
-     * @param int|null $srid
+     * @param Polygon[]|array[] $polygons
+     * @param int               $srid
      */
     public function __construct(array $polygons = array(), $srid = 0)
     {
@@ -48,7 +43,7 @@ class MultiPolygon extends AbstractGeometry
     }
 
     /**
-     * @param array[] $polygons
+     * @param Polygon[]|array[] $polygons
      *
      * @return self
      */
@@ -67,7 +62,6 @@ class MultiPolygon extends AbstractGeometry
      * @param Polygon|array[] $polygon
      *
      * @return self
-     * @throws \Exception
      */
     public function addPolygon($polygon)
     {

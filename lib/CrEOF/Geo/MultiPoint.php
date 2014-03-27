@@ -32,13 +32,8 @@ namespace CrEOF\Geo;
 class MultiPoint extends AbstractGeometry
 {
     /**
-     * @var Point[]
-     */
-    protected $points;
-
-    /**
-     * @param array[]  $points
-     * @param int|null $srid
+     * @param Point[]|array[] $points
+     * @param int             $srid
      */
     public function __construct(array $points = array(), $srid = 0)
     {
@@ -48,7 +43,7 @@ class MultiPoint extends AbstractGeometry
     }
 
     /**
-     * @param array $points
+     * @param Point[]|array[] $points
      *
      * @return self
      */
@@ -64,10 +59,9 @@ class MultiPoint extends AbstractGeometry
     }
 
     /**
-     * @param mixed $point
+     * @param Point|string|string[]|int[]|float[] $point
      *
      * @return self
-     * @throws \Exception
      */
     public function addPoint($point)
     {

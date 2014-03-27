@@ -60,7 +60,7 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @return null|int
+     * @return int
      */
     public function getSrid()
     {
@@ -86,7 +86,7 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param int   $index
+     * @param int $index
      *
      * @return mixed
      */

@@ -32,13 +32,8 @@ namespace CrEOF\Geo;
 class Polygon extends AbstractGeometry
 {
     /**
-     * @var LineString[] $rings
-     */
-    protected $rings;
-
-    /**
-     * @param array[]  $rings
-     * @param int|null $srid
+     * @param LineString[]|array[] $rings
+     * @param int                  $srid
      */
     public function __construct(array $rings = array(), $srid = 0)
     {
@@ -48,7 +43,7 @@ class Polygon extends AbstractGeometry
     }
 
     /**
-     * @param array[] $rings
+     * @param LineString[]|array[] $rings
      *
      * @return self
      */
@@ -67,7 +62,6 @@ class Polygon extends AbstractGeometry
      * @param LineString|array[] $ring
      *
      * @return self
-     * @throws \Exception
      */
     public function addRing($ring)
     {

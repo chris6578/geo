@@ -53,7 +53,7 @@ class Point extends AbstractGeometry
 
     /**
      * @param array|string|null $value
-     * @param string|int|null   $srid
+     * @param int               $srid
      */
     public function __construct($value = null, $srid = 0)
     {
