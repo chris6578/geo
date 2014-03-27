@@ -35,6 +35,11 @@ use CrEOF\Geo\Point;
  */
 class PointTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testEmptyPoint
+     *
+     * Test point constructor called with no arguments
+     */
     public function testEmptyPoint()
     {
         $point = new Point();
@@ -44,10 +49,14 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * testPointXY
+     *
+     * Test supported valid point data
+     *
      * @param string $value
      * @param array  $expected
      *
-     * @dataProvider plainDataSource
+     * @dataProvider pointDataSource
      */
     public function testPointXY($value, array $expected)
     {
@@ -60,6 +69,11 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected[1], $point->getLatitude());
     }
 
+    /**
+     * testToString
+     *
+     * Test __toString magic method
+     */
     public function testToString()
     {
         $point = new Point('40° 26\' 46" N 79° 58\' 56" W');
@@ -67,6 +81,11 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('40.446111111111 -79.982222222222', (string) $point);
     }
 
+    /**
+     * testLatitudeFirst
+     *
+     * Test changing tuple order
+     */
     public function testLatitudeFirst()
     {
         Point::setOrder(Point::ORDER_LAT_FIRST);
@@ -79,7 +98,14 @@ class PointTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(6, $point->getLongitude());
     }
 
-    public function plainDataSource()
+    /**
+     * pointDataSource
+     *
+     * Data source providing valid point data
+     *
+     * @return array[]
+     */
+    public function pointDataSource()
     {
         return array(
             array('5,6', array(5, 6)),
