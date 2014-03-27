@@ -23,6 +23,10 @@
 
 namespace CrEOF\Geo;
 
+use CrEOF\Geo\Exception\InvalidArgumentException;
+use CrEOF\Geo\Exception\RangeException;
+use CrEOF\Geo\Exception\UnexpectedValueException;
+
 /**
  * Point object
  *
@@ -68,7 +72,7 @@ class Point extends AbstractGeometry
      * @param array|string $value
      *
      * @return self
-     * @throws \Exception
+     * @throws UnexpectedValueException
      */
     public function set($value)
     {
@@ -77,7 +81,7 @@ class Point extends AbstractGeometry
         }
 
         if ( ! is_array($value)) {
-            throw new \UnexpectedValueException(); // TODO
+            throw new UnexpectedValueException(sprintf('Unexpected value of type "%s"', gettype($value)));
         }
 
         $this->setX($value)
@@ -90,7 +94,7 @@ class Point extends AbstractGeometry
      * @param string|int|float|array $value
      *
      * @return self
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function setX($value)
     {
@@ -107,7 +111,7 @@ class Point extends AbstractGeometry
         }
 
         if (false === is_int($value) && false === is_float($value)) {
-            throw new \UnexpectedValueException(); // TODO
+            throw new UnexpectedValueException(sprintf('Unexpected value of type "%s"', gettype($value)));
         }
 
         $this->coords[0] = $value;
@@ -127,7 +131,7 @@ class Point extends AbstractGeometry
      * @param string|int|float|array $value
      *
      * @return self
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     public function setY($value)
     {
@@ -144,7 +148,7 @@ class Point extends AbstractGeometry
         }
 
         if (false === is_int($value) && false === is_float($value)) {
-            throw new \UnexpectedValueException(); // TODO
+            throw new UnexpectedValueException(sprintf('Unexpected value of type "%s"', gettype($value)));
         }
 
         $this->coords[1] = $value;
@@ -231,12 +235,12 @@ class Point extends AbstractGeometry
     /**
      * @param int $order
      *
-     * @throws \Exception
+     * @throws RangeException
      */
     public static function setOrder($order)
     {
         if (self::ORDER_LAT_FIRST !== $order && self::ORDER_LON_FIRST !== $order) {
-            throw new \RangeException(); // TODO
+            throw new RangeException(sprintf('"%s" is not a supported order', $order));
         }
 
         self::$order = $order;
@@ -254,12 +258,12 @@ class Point extends AbstractGeometry
      * @param string $value
      *
      * @return float|int|array
-     * @throws \Exception
+     * @throws InvalidArgumentException
      */
     private function parseString($value)
     {
         if ( ! is_string($value)) {
-            throw new \UnexpectedValueException(); // TODO
+            throw new InvalidArgumentException(sprintf('Expected type string, received %s', gettype($value)));
         }
 
         if (is_numeric($value)) {
