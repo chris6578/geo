@@ -49,26 +49,16 @@ class MultiLineString extends AbstractGeometry
      */
     public function setLineStrings(array $lineStrings)
     {
-        $this->objects = array();
-
-        foreach ($lineStrings as $lineString) {
-            $this->addLineString($lineString);
-        }
-
-        return $this;
+        return $this->setObjects($lineStrings);
     }
 
     /**
-     * @param LineString|array[] $lineString
+     * @param LineString|Point[]|array[] $lineString
      *
      * @return self
      */
     public function addLineString($lineString)
     {
-        if ( ! ($lineString instanceof LineString)) {
-            $lineString = new LineString($lineString);
-        }
-
         return $this->addObject($lineString);
     }
 
@@ -104,5 +94,19 @@ class MultiLineString extends AbstractGeometry
     public function __toString()
     {
         return $this->objectsToString('(%s)');
+    }
+
+    /**
+     * @param LineString|Point[]|array[] $value
+     *
+     * @return LineString
+     */
+    protected function getValidObject($value)
+    {
+        if ( ! ($value instanceof LineString)) {
+            $value = new LineString($value);
+        }
+
+        return $value;
     }
 }

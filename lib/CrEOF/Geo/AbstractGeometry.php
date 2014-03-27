@@ -86,6 +86,22 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
+     * @param array $objects
+     *
+     * @return self
+     */
+    protected function setObjects(array $objects)
+    {
+        $this->objects = array();
+
+        foreach ($objects as $object) {
+            $this->addObject($object);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param int $index
      *
      * @return mixed
@@ -115,12 +131,14 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param AbstractGeometry $object
+     * @param mixed $object
      *
      * @return self
      */
-    protected function addObject(AbstractGeometry $object)
+    protected function addObject($object)
     {
+        $object = $this->getValidObject($object);
+
         $this->objects[] = $object->setSrid(0);
 
         return $this;
@@ -141,6 +159,8 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
+     * objectsToString
+     *
      * @param string $format
      * @param string $separator
      * @param array  $objects
@@ -160,5 +180,19 @@ abstract class AbstractGeometry implements GeometryInterface
         }
 
         return implode($separator, $strings);
+    }
+
+    /**
+     * getValidObject
+     *
+     * Create object from value if necessary and perform validation before returning an AbstractGeometry object
+     *
+     * @param mixed $value
+     *
+     * @return AbstractGeometry
+     */
+    protected function getValidObject($value)
+    {
+        return $value;
     }
 }

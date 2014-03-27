@@ -49,13 +49,7 @@ class Polygon extends AbstractGeometry
      */
     public function setRings(array $rings)
     {
-        $this->objects = array();
-
-        foreach ($rings as $ring) {
-            $this->addRing($ring);
-        }
-
-        return $this;
+        return $this->setObjects($rings);
     }
 
     /**
@@ -65,14 +59,6 @@ class Polygon extends AbstractGeometry
      */
     public function addRing($ring)
     {
-        if ( ! ($ring instanceof LineString)) {
-            $ring = new LineString($ring);
-        }
-
-        if ( ! $ring->isClosed()) {
-            throw new \Exception(); // TODO
-        }
-
         return $this->addObject($ring);
     }
 
@@ -108,5 +94,24 @@ class Polygon extends AbstractGeometry
     public function __toString()
     {
         return $this->objectsToString('(%s)');
+    }
+
+    /**
+     * @param LineString[]|array[] $value
+     *
+     * @return LineString
+     * @throws \Exception
+     */
+    protected function getValidObject($value)
+    {
+        if ( ! ($value instanceof LineString)) {
+            $value = new LineString($value);
+        }
+
+        if ( ! $value->isClosed()) {
+            throw new \Exception(); // TODO
+        }
+
+        return $value;
     }
 }
