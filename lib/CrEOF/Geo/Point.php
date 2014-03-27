@@ -262,12 +262,12 @@ class Point extends AbstractGeometry
             throw new \UnexpectedValueException(); // TODO
         }
 
-        if ( ! is_numeric($value)) {
-            $parser = new Parser($value);
-
-            return $parser->parse();
+        if (is_numeric($value)) {
+            return $value + 0;
         }
 
-        return $value + 0;
+        $parser = new Parser($value);
+
+        return $parser->parse();
     }
 }
