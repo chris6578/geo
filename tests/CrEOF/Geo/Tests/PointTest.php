@@ -112,6 +112,7 @@ class PointTest extends \PHPUnit_Framework_TestCase
             array(array(5, 6), array(5, 6)),
             array(array('5', '6'), array(5, 6)),
             array(array('5.456', '6'), array(5.456, 6)),
+            array(array('40° 26\' 46" N', '79° 58\' 56" W'), array(40.446111111111, -79.982222222222)),
             array('40° 26\' 46" N 79° 58\' 56" W', array(40.446111111111, -79.982222222222)),
             array('40.4738° N, 79.553° W', array(40.4738, -79.553)),
             array('40.4738° S, 79.553° W', array(-40.4738, -79.553)),
