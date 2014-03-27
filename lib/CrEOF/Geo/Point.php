@@ -24,7 +24,6 @@
 namespace CrEOF\Geo;
 
 use CrEOF\Geo\Exception\InvalidArgumentException;
-use CrEOF\Geo\Exception\RangeException;
 use CrEOF\Geo\Exception\UnexpectedValueException;
 
 /**
@@ -38,14 +37,6 @@ use CrEOF\Geo\Exception\UnexpectedValueException;
  */
 class Point extends AbstractGeometry
 {
-    const ORDER_LON_FIRST = 0;
-    const ORDER_LAT_FIRST = 1;
-
-    /**
-     * @var int
-     */
-    private static $order = self::ORDER_LON_FIRST;
-
     /**
      * @param array|string|null $value
      * @param int               $srid
@@ -164,7 +155,7 @@ class Point extends AbstractGeometry
      */
     public function setLatitude($latitude)
     {
-        if (static::$order === self::ORDER_LAT_FIRST) {
+        if (Configuration::getOrder() === Configuration::ORDER_LAT_FIRST) {
             return $this->setX($latitude);
         }
 
@@ -176,7 +167,7 @@ class Point extends AbstractGeometry
      */
     public function getLatitude()
     {
-        if (static::$order === self::ORDER_LAT_FIRST) {
+        if (Configuration::getOrder() === Configuration::ORDER_LAT_FIRST) {
             return $this->getX();
         }
 
@@ -190,7 +181,7 @@ class Point extends AbstractGeometry
      */
     public function setLongitude($longitude)
     {
-        if (static::$order === self::ORDER_LON_FIRST) {
+        if (Configuration::getOrder() === Configuration::ORDER_LON_FIRST) {
             return $this->setX($longitude);
         }
 
@@ -202,7 +193,7 @@ class Point extends AbstractGeometry
      */
     public function getLongitude()
     {
-        if (static::$order === self::ORDER_LON_FIRST) {
+        if (Configuration::getOrder() === Configuration::ORDER_LON_FIRST) {
             return $this->getX();
         }
 
@@ -223,28 +214,6 @@ class Point extends AbstractGeometry
     public function __toString()
     {
         return $this->valuesToString('%s', ' ');
-    }
-
-    /**
-     * @param int $order
-     *
-     * @throws RangeException
-     */
-    public static function setOrder($order)
-    {
-        if (self::ORDER_LAT_FIRST !== $order && self::ORDER_LON_FIRST !== $order) {
-            throw new RangeException(sprintf('"%s" is not a supported order', $order));
-        }
-
-        self::$order = $order;
-    }
-
-    /**
-     * @return int
-     */
-    public static function getOrder()
-    {
-        return self::$order;
     }
 
     /**
