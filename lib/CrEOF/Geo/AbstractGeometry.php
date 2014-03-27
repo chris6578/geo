@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo;
 
+use CrEOF\Geo\Exception\RangeException;
+
 /**
  * Abstract geometry object
  *
@@ -109,9 +111,14 @@ abstract class AbstractGeometry implements GeometryInterface
      * @param int $index
      *
      * @return AbstractGeometry
+     * @throws RangeException
      */
     protected function getValuesIndex($index)
     {
+        if ($index >= count($this->values)) {
+            throw new RangeException(sprintf('Index %d is out of range'));
+        }
+
         switch ($index) {
             case -1:
                 return $this->values[count($this->values) - 1]->setSrid(0);
