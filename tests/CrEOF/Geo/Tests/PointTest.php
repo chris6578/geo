@@ -49,9 +49,30 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * testPointSet
+     *
+     * Test constructor/set with supported valid point data
+     *
+     * @param string $value
+     * @param array  $expected
+     *
+     * @dataProvider pointDataSource
+     */
+    public function testPointSet($value, array $expected)
+    {
+        $point = new Point($value);
+
+        $this->assertEquals($expected, $point->toArray());
+        $this->assertEquals($expected[0], $point->getX());
+        $this->assertEquals($expected[0], $point->getLongitude());
+        $this->assertEquals($expected[1], $point->getY());
+        $this->assertEquals($expected[1], $point->getLatitude());
+    }
+
+    /**
      * testPointXY
      *
-     * Test supported valid point data
+     * Test setX/Y with supported valid point data
      *
      * @param string $value
      * @param array  $expected
@@ -60,7 +81,10 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function testPointXY($value, array $expected)
     {
-        $point = new Point($value);
+        $point = new Point();
+
+        $point->setX($value)
+            ->setY($value);
 
         $this->assertEquals($expected, $point->toArray());
         $this->assertEquals($expected[0], $point->getX());
