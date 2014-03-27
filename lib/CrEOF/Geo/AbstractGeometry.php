@@ -37,7 +37,7 @@ abstract class AbstractGeometry implements GeometryInterface
     protected $srid;
 
     /**
-     * @var AbstractGeometry[]
+     * @var AbstractGeometry[]|int[]|float[]
      */
     protected $values;
 

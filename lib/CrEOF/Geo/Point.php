@@ -47,11 +47,6 @@ class Point extends AbstractGeometry
     private static $order = self::ORDER_LON_FIRST;
 
     /**
-     * @var array;
-     */
-    private $coords;
-
-    /**
      * @param array|string|null $value
      * @param int               $srid
      */
@@ -59,7 +54,7 @@ class Point extends AbstractGeometry
     {
         parent::__construct($srid);
 
-        $this->coords = array(0, 0);
+        $this->values = array(0, 0);
 
         if (null != $value) {
             $this->set($value);
@@ -112,7 +107,7 @@ class Point extends AbstractGeometry
             throw new UnexpectedValueException(sprintf('Unexpected value of type "%s"', gettype($value)));
         }
 
-        $this->coords[0] = $value;
+        $this->values[0] = $value;
 
         return $this;
     }
@@ -122,7 +117,7 @@ class Point extends AbstractGeometry
      */
     public function getX()
     {
-        return $this->coords[0];
+        return $this->values[0];
     }
 
     /**
@@ -149,7 +144,7 @@ class Point extends AbstractGeometry
             throw new UnexpectedValueException(sprintf('Unexpected value of type "%s"', gettype($value)));
         }
 
-        $this->coords[1] = $value;
+        $this->values[1] = $value;
 
         return $this;
     }
@@ -159,7 +154,7 @@ class Point extends AbstractGeometry
      */
     public function getY()
     {
-        return $this->coords[1];
+        return $this->values[1];
     }
 
     /**
@@ -219,7 +214,7 @@ class Point extends AbstractGeometry
      */
     public function toArray()
     {
-        return $this->coords;
+        return $this->values;
     }
 
     /**
@@ -227,7 +222,7 @@ class Point extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString('%s', ' ', $this->coords);
+        return $this->valuesToString('%s', ' ');
     }
 
     /**
