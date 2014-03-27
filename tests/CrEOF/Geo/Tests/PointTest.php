@@ -94,6 +94,30 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * testPointLonLat
+     *
+     * Test setLongitude/Latitude with supported valid point data
+     *
+     * @param string $value
+     * @param array  $expected
+     *
+     * @dataProvider pointDataSource
+     */
+    public function testPointLonLat($value, array $expected)
+    {
+        $point = new Point();
+
+        $point->setLongitude($value)
+            ->setLatitude($value);
+
+        $this->assertEquals($expected, $point->toArray());
+        $this->assertEquals($expected[0], $point->getX());
+        $this->assertEquals($expected[0], $point->getLongitude());
+        $this->assertEquals($expected[1], $point->getY());
+        $this->assertEquals($expected[1], $point->getLatitude());
+    }
+
+    /**
      * testToString
      *
      * Test __toString magic method
@@ -106,20 +130,52 @@ class PointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testLatitudeFirst
+     * testLatitudeFirstGet
      *
-     * Test changing tuple order
+     * Test order when set via constructor/setX/Y
+     *
+     * @param string $value
+     * @param array  $expected
+     *
+     * @dataProvider pointDataSource
      */
-    public function testLatitudeFirst()
+    public function testLatitudeFirstGet($value, array $expected)
     {
         Point::setOrder(Point::ORDER_LAT_FIRST);
 
-        $point = new Point(array(5, 6));
+        $point = new Point($value);
 
-        $this->assertEquals(5, $point->getX());
-        $this->assertEquals(5, $point->getLatitude());
-        $this->assertEquals(6, $point->getY());
-        $this->assertEquals(6, $point->getLongitude());
+        $this->assertEquals($expected, $point->toArray());
+        $this->assertEquals($expected[0], $point->getX());
+        $this->assertEquals($expected[1], $point->getLongitude());
+        $this->assertEquals($expected[1], $point->getY());
+        $this->assertEquals($expected[0], $point->getLatitude());
+    }
+
+    /**
+     * testLatitudeFirstSet
+     *
+     * Test order when set via setLongitude/Latitude
+     *
+     * @param string $value
+     * @param array  $expected
+     *
+     * @dataProvider pointDataSource
+     */
+    public function testLatitudeFirstSet($value, array $expected)
+    {
+        Point::setOrder(Point::ORDER_LAT_FIRST);
+
+        $point = new Point();
+
+        $point->setLongitude($value)
+            ->setLatitude($value);
+
+        $this->assertEquals($expected, $point->toArray());
+        $this->assertEquals($expected[0], $point->getX());
+        $this->assertEquals($expected[1], $point->getLongitude());
+        $this->assertEquals($expected[1], $point->getY());
+        $this->assertEquals($expected[0], $point->getLatitude());
     }
 
     /**
