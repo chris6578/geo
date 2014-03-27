@@ -93,12 +93,12 @@ class Point extends AbstractGeometry
      */
     public function setX($value)
     {
-        if (is_string($value)) {
-            $value = $this->parseString($value);
-        }
-
         if (is_array($value)) {
             $value = $value[0];
+        }
+
+        if (is_string($value)) {
+            $value = $this->parseString($value);
         }
 
         $this->coords[0] = $value;
@@ -121,12 +121,12 @@ class Point extends AbstractGeometry
      */
     public function setY($value)
     {
-        if (is_string($value)) {
-            $value = $this->parseString($value);
-        }
-
         if (is_array($value)) {
             $value = $value[1];
+        }
+
+        if (is_string($value)) {
+            $value = $this->parseString($value);
         }
 
         $this->coords[1] = $value;
