@@ -40,7 +40,7 @@ class Point extends AbstractGeometry
     /**
      * @var int
      */
-    static private $order = self::ORDER_LON_FIRST;
+    private static $order = self::ORDER_LON_FIRST;
 
     /**
      * @var array;
