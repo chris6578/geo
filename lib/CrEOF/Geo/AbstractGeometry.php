@@ -114,9 +114,9 @@ abstract class AbstractGeometry implements GeometryInterface
     {
         switch ($index) {
             case -1:
-                return $this->values[count($this->values) - 1];
+                return $this->values[count($this->values) - 1]->setSrid(0);
             default:
-                return $this->values[$index];
+                return $this->values[$index]->setSrid(0);
         }
     }
 
