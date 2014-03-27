@@ -49,7 +49,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function setPoints(array $points)
     {
-        return $this->setObjects($points);
+        return $this->setValues($points);
     }
 
     /**
@@ -59,7 +59,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function addPoint($point)
     {
-        return $this->addObject($point);
+        return $this->addValue($point);
     }
 
     /**
@@ -67,7 +67,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function getPoints()
     {
-        return $this->getObjects();
+        return $this->getValues();
     }
 
     /**
@@ -77,7 +77,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function getPoint($index)
     {
-        return $this->getObjectsIndex($index);
+        return $this->getValuesIndex($index);
     }
 
     /**
@@ -85,7 +85,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function toArray()
     {
-        return $this->objectsToArray();
+        return $this->valuesToArray();
     }
 
     /**
@@ -93,7 +93,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString();
+        return $this->valuesToString();
     }
 
     /**

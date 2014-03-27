@@ -39,7 +39,7 @@ abstract class AbstractGeometry implements GeometryInterface
     /**
      * @var AbstractGeometry[]
      */
-    protected $objects;
+    protected $values;
 
     /**
      * @return string
@@ -86,16 +86,16 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param array $objects
+     * @param array $values
      *
      * @return self
      */
-    protected function setObjects(array $objects)
+    protected function setValues(array $values)
     {
-        $this->objects = array();
+        $this->values = array();
 
-        foreach ($objects as $object) {
-            $this->addObject($object);
+        foreach ($values as $object) {
+            $this->addValue($object);
         }
 
         return $this;
@@ -104,42 +104,42 @@ abstract class AbstractGeometry implements GeometryInterface
     /**
      * @param int $index
      *
-     * @return mixed
+     * @return AbstractGeometry
      */
-    protected function getObjectsIndex($index)
+    protected function getValuesIndex($index)
     {
         switch ($index) {
             case -1:
-                return $this->objects[count($this->objects) - 1];
+                return $this->values[count($this->values) - 1];
             default:
-                return $this->objects[$index];
+                return $this->values[$index];
         }
     }
 
     /**
      * @return array
      */
-    protected function getObjects()
+    protected function getValues()
     {
         $objects = array();
 
-        foreach ($this->objects as $object) {
-            $objects[] = $object->setSrid(0);
+        foreach ($this->values as $value) {
+            $objects[] = $value->setSrid(0);
         }
 
         return $objects;
     }
 
     /**
-     * @param mixed $object
+     * @param mixed $values
      *
      * @return self
      */
-    protected function addObject($object)
+    protected function addValue($values)
     {
-        $object = $this->getValidObject($object);
+        $values = $this->getValidObject($values);
 
-        $this->objects[] = $object->setSrid(0);
+        $this->values[] = $values->setSrid(0);
 
         return $this;
     }
@@ -147,36 +147,31 @@ abstract class AbstractGeometry implements GeometryInterface
     /**
      * @return array
      */
-    protected function objectsToArray()
+    protected function valuesToArray()
     {
         $array = array();
 
-        foreach ($this->objects as $object) {
-            $array[] = $object->toArray();
+        foreach ($this->values as $value) {
+            $array[] = $value->toArray();
         }
 
         return $array;
     }
 
     /**
-     * objectsToString
+     * valuesToString
      *
      * @param string $format
      * @param string $separator
-     * @param array  $objects
      *
      * @return string
      */
-    protected function objectsToString($format = '%s', $separator = ',', array $objects = null)
+    protected function valuesToString($format = '%s', $separator = ',')
     {
-        if (null === $objects) {
-            $objects = $this->objects;
-        }
-
         $strings = array();
 
-        foreach ($objects as $object) {
-            $strings[] = sprintf($format, $object);
+        foreach ($this->values as $value) {
+            $strings[] = sprintf($format, $value);
         }
 
         return implode($separator, $strings);

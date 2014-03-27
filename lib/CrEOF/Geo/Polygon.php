@@ -49,7 +49,7 @@ class Polygon extends AbstractGeometry
      */
     public function setRings(array $rings)
     {
-        return $this->setObjects($rings);
+        return $this->setValues($rings);
     }
 
     /**
@@ -59,7 +59,7 @@ class Polygon extends AbstractGeometry
      */
     public function addRing($ring)
     {
-        return $this->addObject($ring);
+        return $this->addValue($ring);
     }
 
     /**
@@ -67,7 +67,7 @@ class Polygon extends AbstractGeometry
      */
     public function getRings()
     {
-        return $this->getObjects();
+        return $this->getValues();
     }
 
     /**
@@ -77,7 +77,7 @@ class Polygon extends AbstractGeometry
      */
     public function getRing($index)
     {
-        return $this->getObjectsIndex($index);
+        return $this->getValuesIndex($index);
     }
 
     /**
@@ -85,7 +85,7 @@ class Polygon extends AbstractGeometry
      */
     public function toArray()
     {
-        return $this->objectsToArray();
+        return $this->valuesToArray();
     }
 
     /**
@@ -93,7 +93,7 @@ class Polygon extends AbstractGeometry
      */
     public function __toString()
     {
-        return $this->objectsToString('(%s)');
+        return $this->valuesToString('(%s)');
     }
 
     /**
