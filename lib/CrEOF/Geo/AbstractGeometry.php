@@ -78,7 +78,7 @@ abstract class AbstractGeometry implements GeometryInterface
      *
      * @return mixed
      */
-    protected function getIndex(array $array, $index)
+    protected function getObjectsIndex(array $array, $index)
     {
         switch ($index) {
             case -1:

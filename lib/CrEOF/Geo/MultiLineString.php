@@ -98,7 +98,7 @@ class MultiLineString extends AbstractGeometry
      */
     public function getLineString($index)
     {
-        return $this->getIndex($this->lineStrings, $index);
+        return $this->getObjectsIndex($this->lineStrings, $index);
     }
 
     /**

@@ -102,7 +102,7 @@ class Polygon extends AbstractGeometry
      */
     public function getRing($index)
     {
-        return $this->getIndex($this->rings, $index);
+        return $this->getObjectsIndex($this->rings, $index);
     }
 
     /**

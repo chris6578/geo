@@ -98,7 +98,7 @@ class MultiPoint extends AbstractGeometry
      */
     public function getPoint($index)
     {
-        return $this->getIndex($this->points, $index);
+        return $this->getObjectsIndex($this->points, $index);
     }
 
     /**

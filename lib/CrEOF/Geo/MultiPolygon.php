@@ -98,7 +98,7 @@ class MultiPolygon extends AbstractGeometry
      */
     public function getPolygon($index)
     {
-        return $this->getIndex($this->polygons, $index);
+        return $this->getObjectsIndex($this->polygons, $index);
     }
 
     /**
