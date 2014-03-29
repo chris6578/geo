@@ -24,9 +24,7 @@
 namespace CrEOF\Geo\Tests;
 
 use CrEOF\Geo\MultiPolygon;
-use CrEOF\Geo\Point;
 use CrEOF\Geo\Polygon;
-use CrEOF\Geo\LineString;
 
 /**
  * MultiPolygonTest object tests
@@ -34,7 +32,7 @@ use CrEOF\Geo\LineString;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPolygonTest extends \PHPUnit_Framework_TestCase
+class MultiPolygonTest extends AbstractBaseTest
 {
     public function testEmptyMultiPolygon()
     {
@@ -43,182 +41,79 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($multiPolygon->getPolygons());
     }
 
-    public function testMultiPolygonFromObjectsToArray()
+    /**
+     * @param array[] $strings
+     * @param array[] $arrays
+     *
+     * @dataProvider multiPolygonData
+     */
+    public function testMultiPolygonFromStrings(array $strings, array $arrays)
     {
-        $expected = array(
-            array(
-                array(
-                    array(0, 0),
-                    array(10, 0),
-                    array(10, 10),
-                    array(0, 10),
-                    array(0, 0)
-                )
-            ),
-            array(
-                array(
-                    array(0, 0),
-                    array(10, 0),
-                    array(10, 10),
-                    array(0, 10),
-                    array(0, 0)
-                )
-            )
-        );
-        $polygons = array(
-            new Polygon(
-                array(
-                    new LineString(
-                        array(
-                            new Point(array(0, 0)),
-                            new Point(array(10, 0)),
-                            new Point(array(10, 10)),
-                            new Point(array(0, 10)),
-                            new Point(array(0, 0))
-                        )
-                    )
-                )
-            ),
-            new Polygon(
-                array(
-                    new LineString(
-                        array(
-                            new Point(array(0, 0)),
-                            new Point(array(10, 0)),
-                            new Point(array(10, 10)),
-                            new Point(array(0, 10)),
-                            new Point(array(0, 0))
-                        )
-                    )
-                )
-            )
-        );
+        $multiPolygon = new MultiPolygon($strings);
 
+        $this->assertEquals($arrays, $multiPolygon->toArray());
+    }
+
+    /**
+     * @param array[]   $strings
+     * @param array[]   $arrays
+     * @param array[]   $points
+     * @param array[]   $rings
+     * @param Polygon[] $polygons
+     *
+     * @dataProvider multiPolygonData
+     */
+    public function testMultiPolygonFromArrays($strings, $arrays, $points, $rings, $polygons)
+    {
+        $multiPolygon = new MultiPolygon($arrays);
+
+        $this->assertEquals($polygons, $multiPolygon->getPolygons());
+    }
+
+    /**
+     * @param array[]   $strings
+     * @param array[]   $arrays
+     * @param array[]   $points
+     *
+     * @dataProvider multiPolygonData
+     */
+    public function testMultiPolygonFromPoints($strings, $arrays, $points)
+    {
+        $multiPolygon = new MultiPolygon($points);
+
+        $this->assertEquals($arrays, $multiPolygon->toArray());
+    }
+
+    /**
+     * @param array[]   $strings
+     * @param array[]   $arrays
+     * @param array[]   $points
+     * @param array[]   $rings
+     * @param Polygon[] $polygons
+     *
+     * @dataProvider multiPolygonData
+     */
+    public function testMultiPolygonFromRings($strings, $arrays, $points, $rings, $polygons)
+    {
+        $multiPolygon = new MultiPolygon($rings);
+
+        $this->assertEquals($polygons, $multiPolygon->getPolygons());
+    }
+
+    /**
+     * @param array[]   $strings
+     * @param array[]   $arrays
+     * @param array[]   $points
+     * @param array[]   $rings
+     * @param Polygon[] $polygons
+     *
+     * @dataProvider multiPolygonData
+     */
+    public function testMultiPolygonFromPolygons($strings, $arrays, $points, $rings, $polygons)
+    {
         $multiPolygon = new MultiPolygon($polygons);
 
-        $this->assertEquals($expected, $multiPolygon->toArray());
-    }
-
-    public function testMultiPolygonFromArraysGetObjects()
-    {
-        $expected = array(
-            new Polygon(
-                array(
-                    new LineString(
-                        array(
-                            new Point(array(0, 0)),
-                            new Point(array(10, 0)),
-                            new Point(array(10, 10)),
-                            new Point(array(0, 10)),
-                            new Point(array(0, 0))
-                        )
-                    )
-                )
-            ),
-            new Polygon(
-                array(
-                    new LineString(
-                        array(
-                            new Point(array(0, 0)),
-                            new Point(array(10, 0)),
-                            new Point(array(10, 10)),
-                            new Point(array(0, 10)),
-                            new Point(array(0, 0))
-                        )
-                    )
-                )
-            )
-        );
-        $polygons = array(
-            array(
-                array(
-                    array(0, 0),
-                    array(10, 0),
-                    array(10, 10),
-                    array(0, 10),
-                    array(0, 0)
-                )
-            ),
-            array(
-                array(
-                    array(0, 0),
-                    array(10, 0),
-                    array(10, 10),
-                    array(0, 10),
-                    array(0, 0)
-                )
-            )
-        );
-
-        $multiPolygon = new MultiPolygon($polygons);
-
-        $this->assertEquals($expected, $multiPolygon->getPolygons());
-    }
-
-    public function testMultiPolygonFromObjectsGetSinglePolygon()
-    {
-        $polygon1     = new Polygon(
-            array(
-                new LineString(
-                    array(
-                        new Point(array(0, 0)),
-                        new Point(array(10, 0)),
-                        new Point(array(10, 10)),
-                        new Point(array(0, 10)),
-                        new Point(array(0, 0))
-                    )
-                )
-            )
-        );
-        $polygon2     = new Polygon(
-            array(
-                new LineString(
-                    array(
-                        new Point(array(5, 5)),
-                        new Point(array(7, 5)),
-                        new Point(array(7, 7)),
-                        new Point(array(5, 7)),
-                        new Point(array(5, 5))
-                    )
-                )
-            )
-        );
-        $multiPolygon = new MultiPolygon(array($polygon1, $polygon2));
-
-        $this->assertEquals($polygon1, $multiPolygon->getPolygon(0));
-    }
-
-    public function testMultiPolygonFromObjectsGetLastPolygon()
-    {
-        $polygon1     = new Polygon(
-            array(
-                new LineString(
-                    array(
-                        new Point(array(0, 0)),
-                        new Point(array(10, 0)),
-                        new Point(array(10, 10)),
-                        new Point(array(0, 10)),
-                        new Point(array(0, 0))
-                    )
-                )
-            )
-        );
-        $polygon2     = new Polygon(
-            array(
-                new LineString(
-                    array(
-                        new Point(array(5, 5)),
-                        new Point(array(7, 5)),
-                        new Point(array(7, 7)),
-                        new Point(array(5, 7)),
-                        new Point(array(5, 5))
-                    )
-                )
-            )
-        );
-        $multiPolygon = new MultiPolygon(array($polygon1, $polygon2));
-
-        $this->assertEquals($polygon2, $multiPolygon->getPolygon(-1));
+        $this->assertEquals($arrays, $multiPolygon->toArray());
     }
 
     public function testMultiPolygonFromArraysToString()
@@ -252,8 +147,47 @@ class MultiPolygonTest extends \PHPUnit_Framework_TestCase
             )
         );
         $multiPolygon = new MultiPolygon($polygons);
-        $result       = (string)$multiPolygon;
+        $result       = (string) $multiPolygon;
 
         $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function multiPolygonData()
+    {
+        $multiPolygonStrings = array(
+            array(
+                array(
+                    array('0, 0', '10, 0', '10, 10', '0, 10', '0, 0')
+                ),
+                array(
+                    array('5, 5', '7, 5', '7, 7', '5, 7', '5, 5')
+                )
+            ),
+            array(
+                array(
+                    array('5, 5', '7, 5', '7, 7', '5, 7', '5, 5')
+                ),
+                array(
+                    array('0, 0', '10, 0', '10, 10', '0, 10', '0, 0'),
+                    array('5, 5', '7, 5', '7, 7', '5, 7', '5, 5')
+                )
+            )
+        );
+
+        $sets = array();
+
+        foreach ($multiPolygonStrings as $multiPolygon) {
+            $arrays   = $this->stringsToArrays($multiPolygon);
+            $points   = $this->arraysToPoints($arrays);
+            $rings    = $this->pointsToLineStrings($points);
+            $polygons = $this->ringsToPolygons($rings);
+
+            $sets[] = array($multiPolygon, $arrays, $points, $rings, $polygons);
+        }
+
+        return $sets;
     }
 }

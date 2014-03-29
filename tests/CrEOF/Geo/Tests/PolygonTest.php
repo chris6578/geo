@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Tests;
 
 use CrEOF\Geo\LineString;
-use CrEOF\Geo\Parser;
 use CrEOF\Geo\Point;
 use CrEOF\Geo\Polygon;
 
@@ -34,7 +33,7 @@ use CrEOF\Geo\Polygon;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class PolygonTest extends \PHPUnit_Framework_TestCase
+class PolygonTest extends AbstractBaseTest
 {
     public function testEmptyPolygon()
     {
@@ -44,10 +43,10 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
+     * @param array[] $strings
+     * @param array[] $arrays
      *
-     * @dataProvider dataSourceGoodArrayArrays
+     * @dataProvider polygonData
      */
     public function testPolygonFromStringsToArrays(array $strings, array $arrays)
     {
@@ -57,12 +56,12 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
-     * @param array $rings
+     * @param array[]      $strings
+     * @param array[]      $arrays
+     * @param array[]      $points
+     * @param LineString[] $rings
      *
-     * @dataProvider dataSourceGoodArrayRings
+     * @dataProvider polygonData
      */
     public function testPolygonFromArraysToRings(array $strings, array $arrays, array $points, array $rings)
     {
@@ -72,12 +71,12 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
-     * @param array $rings
+     * @param array[]      $strings
+     * @param array[]      $arrays
+     * @param array[]      $points
+     * @param LineString[] $rings
      *
-     * @dataProvider dataSourceGoodArrayRings
+     * @dataProvider polygonData
      */
     public function testPolygonFromPointsToRings(array $strings, array $arrays, array $points, array $rings)
     {
@@ -87,12 +86,12 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
-     * @param array $rings
+     * @param array[]      $strings
+     * @param array[]      $arrays
+     * @param array[]      $points
+     * @param LineString[] $rings
      *
-     * @dataProvider dataSourceGoodArrayRings
+     * @dataProvider polygonData
      */
     public function testPolygonFromRingsToArrays(array $strings, array $arrays, array $points, array $rings)
     {
@@ -147,10 +146,10 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
+     * @param array[] $strings
+     * @param array[] $arrays
      *
-     * @dataProvider dataSourceGoodArrayArrays
+     * @dataProvider polygonData
      */
     public function testPolygonSrid(array $strings, array $arrays)
     {
@@ -180,90 +179,14 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
-    public function dataSourceGoodArrayRings()
+    public function polygonData()
     {
-        $parameterSets = array();
-
-        foreach ($this->dataSourceGoodArrayPoints() as $parameters) {
-            list($stringSet, $arrayArraysArray, $arrayPointsArray) = $parameters;
-
-            $ringsArray = array();
-
-            foreach ($arrayPointsArray as $pointsArray) {
-                $ringsArray[] = new LineString($pointsArray);
-            }
-
-            $parameterSets[] = array($stringSet, $arrayArraysArray, $arrayPointsArray, $ringsArray);
-        }
-
-        return $parameterSets;
-    }
-
-    /**
-     * @return array[]
-     */
-    public function dataSourceGoodArrayPoints()
-    {
-        $parameterSets = array();
-
-        foreach ($this->dataSourceGoodArrayArrays() as $parameters) {
-            list($stringSet, $arrayArraysArray) = $parameters;
-
-            $arrayPointsArray = array();
-
-            foreach ($arrayArraysArray as $arraysArray) {
-                $arrayPointsArray[] = $this->arraysToPoints($arraysArray);
-            }
-
-            $parameterSets[] = array($stringSet, $arrayArraysArray, $arrayPointsArray);
-        }
-
-        return $parameterSets;
-    }
-
-    /**
-     * @return array[]
-     */
-    public function dataSourceGoodArrayArrays()
-    {
-        $parameterSets = array();
-
-        foreach ($this->dataSourceGoodStringArrays() as $arrayStringsArray) {
-            $arrayArraysArray = array();
-
-            foreach ($arrayStringsArray as $stringsArray) {
-                $arrayArraysArray[] = $this->stringsToArrays($stringsArray);
-            }
-
-            $parameterSets[] = array($arrayStringsArray, $arrayArraysArray);
-        }
-
-        return $parameterSets;
-    }
-
-    /**
-     * @return array[]
-     */
-    public function dataSourceGoodStringArrays()
-    {
-        return array(
+        $polygonStrings = array(
             array(
-                array(
-                    '0, 0',
-                    '10, 0',
-                    '10, 10',
-                    '0, 10',
-                    '0, 0'
-                )
+                array('0, 0', '10, 0', '10, 10', '0, 10', '0, 0')
             ),
             array(
-                array(
-                    '5, 5',
-                    '7, 5',
-                    '7, 7',
-                    '5, 7',
-                    '5, 5'
-                )
+                array('5, 5', '7, 5', '7, 7', '5, 7', '5, 5')
             ),
             array(
                 array(
@@ -287,44 +210,21 @@ class PolygonTest extends \PHPUnit_Framework_TestCase
                 )
             ),
             array(
-                array(
-                    '0, 0',
-                    '10, 0',
-                    '10, 10',
-                    '0, 10',
-                    '0, 0'
-                ),
-                array(
-                    '5, 5',
-                    '7, 5',
-                    '7, 7',
-                    '5, 7',
-                    '5, 5'
-                )
+                array('0, 0', '10, 0', '10, 10', '0, 10', '0, 0'),
+                array('5, 5', '7, 5', '7, 7', '5, 7', '5, 5')
             )
         );
-    }
 
-    private function arraysToPoints(array $arrays)
-    {
-        $points = array();
+        $sets = array();
 
-        foreach ($arrays as $array) {
-            $points[] = new Point($array);
+        foreach ($polygonStrings as $polygon) {
+            $arrays = $this->stringsToArrays($polygon);
+            $points = $this->arraysToPoints($arrays);
+            $rings  = $this->pointsToLineStrings($points);
+
+            $sets[] = array($polygon, $arrays, $points, $rings);
         }
 
-        return $points;
-    }
-
-    private function stringsToArrays(array $strings)
-    {
-        $arrays = array();
-
-        foreach ($strings as $string) {
-            $parser   = new Parser($string);
-            $arrays[] = $parser->parse();
-        }
-
-        return $arrays;
+        return $sets;
     }
 }

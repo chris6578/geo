@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Tests;
 
 use CrEOF\Geo\MultiPoint;
-use CrEOF\Geo\Parser;
 use CrEOF\Geo\Point;
 
 /**
@@ -33,7 +32,7 @@ use CrEOF\Geo\Point;
  * @author  Derek J. Lambert <dlambert@dereklambert.com>
  * @license http://dlambert.mit-license.org MIT
  */
-class MultiPointTest extends \PHPUnit_Framework_TestCase
+class MultiPointTest extends AbstractBaseTest
 {
     public function testEmptyMultiPoint()
     {
@@ -43,11 +42,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointFromObjectsToArray(array $strings, array $arrays, array $points)
     {
@@ -58,11 +57,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointFromArraysGetPoints(array $strings, array $arrays, array $points)
     {
@@ -74,11 +73,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointFromStringsGetPoints(array $strings, array $arrays, array $points)
     {
@@ -90,11 +89,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointGetSinglePoint(array $strings, array $arrays, array $points)
     {
@@ -106,11 +105,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointGetLastPoint(array $strings, array $arrays, array $points)
     {
@@ -120,11 +119,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointAddPoint(array $strings, array $arrays, array $points)
     {
@@ -141,11 +140,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointSetPoints(array $strings, array $arrays, array $points)
     {
@@ -165,11 +164,11 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $strings
-     * @param array $arrays
-     * @param array $points
+     * @param string[] $strings
+     * @param array[]  $arrays
+     * @param Point[]  $points
      *
-     * @dataProvider dataSourceGoodArrayPoints
+     * @dataProvider multiPointData
      */
     public function testMultiPointSrid(array $strings, array $arrays, array $points)
     {
@@ -215,69 +214,22 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array[]
      */
-    public function dataSourceGoodArrayPoints()
+    public function multiPointData()
     {
-        $dataSet = array();
-
-        foreach ($this->dataSourceGoodArrayArrays() as $resultSet) {
-            list($stringSet, $arraySet) = $resultSet;
-
-            $arrayPoints = array();
-
-            foreach ($arraySet as $array) {
-                $arrayPoints[] = new Point($array);
-            }
-
-            $dataSet[] = array($stringSet, $arraySet, $arrayPoints);
-        }
-
-        return $dataSet;
-    }
-
-    /**
-     * @return array[]
-     */
-    public function dataSourceGoodArrayArrays()
-    {
-        $dataSet = array();
-
-        foreach ($this->dataSourceGoodStringArrays() as $stringSet) {
-            $arraySet = array();
-
-            foreach ($stringSet as $string) {
-                $parser         = new Parser($string);
-                $arraySet[] = $parser->parse();
-            }
-
-            $dataSet[] = array($stringSet, $arraySet);
-        }
-
-        return $dataSet;
-    }
-
-    /**
-     * @return array[]
-     */
-    public function dataSourceGoodStringArrays()
-    {
-        return array(
-            array(
-                '0, 0',
-                '1, 1',
-                '2, 2',
-                '3, 3'
-            ),
-            array(
-                '0 0',
-                '0 5',
-                '5 0',
-                '0 0'
-            ),
-            array(
-                '44°58\'53.9"N 93°19\'25.8"W',
-                '41°49\'30.4"N 87°40\'49.6"W',
-                '35°29\'20.7"N 97°33\'38.0"W'
-            )
+        $multiPointStrings = array(
+            array('0, 0', '1, 1', '2, 2', '3, 3'),
+            array('0 0', '0 5', '5 0', '0 0'),
+            array('44°58\'53.9"N 93°19\'25.8"W', '41°49\'30.4"N 87°40\'49.6"W', '35°29\'20.7"N 97°33\'38.0"W')
         );
+
+        $sets = array();
+
+        foreach ($multiPointStrings as $multiPoint) {
+            $arrays = $this->stringsToArrays($multiPoint);
+            $points = $this->arraysToPoints($arrays);
+            $sets[] = array($multiPoint, $arrays, $points);
+        }
+
+        return $sets;
     }
 }
