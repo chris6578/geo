@@ -24,6 +24,7 @@
 namespace CrEOF\Geo\Tests;
 
 use CrEOF\Geo\MultiPoint;
+use CrEOF\Geo\Parser;
 use CrEOF\Geo\Point;
 
 /**
@@ -41,83 +42,155 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($multiPoint->getPoints());
     }
 
-    public function testMultiPointFromObjectsToArray()
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointFromObjectsToArray(array $strings, array $arrays, array $points)
     {
-        $expected   = array(
-            array(0, 0),
-            array(1, 1),
-            array(2, 2),
-            array(3, 3)
-        );
-        $multiPoint = new MultiPoint(array(
-            new Point(array(0, 0)),
-            new Point(array(1, 1)),
-            new Point(array(2, 2)),
-            new Point(array(3, 3))
-        ));
+        $multiPoint = new MultiPoint($points);
 
-        $this->assertCount(4, $multiPoint->getPoints());
-        $this->assertEquals($expected, $multiPoint->toArray());
+        $this->assertCount(count($points), $multiPoint->getPoints());
+        $this->assertEquals($arrays, $multiPoint->toArray());
     }
 
-    public function testMultiPointFromArraysGetPoints()
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointFromArraysGetPoints(array $strings, array $arrays, array $points)
     {
-        $expected   = array(
-            new Point(array(0, 0)),
-            new Point(array(1, 1)),
-            new Point(array(2, 2)),
-            new Point(array(3, 3))
-        );
-        $multiPoint = new MultiPoint(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
+        $multiPoint = new MultiPoint($arrays);
         $actual     = $multiPoint->getPoints();
 
-        $this->assertCount(4, $actual);
-        $this->assertEquals($expected, $actual);
+        $this->assertCount(count($arrays), $actual);
+        $this->assertEquals($points, $actual);
     }
 
-    public function testMultiPointFromArraysGetSinglePoint()
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointFromStringsGetPoints(array $strings, array $arrays, array $points)
     {
-        $expected   = new Point(array(1, 1));
-        $multiPoint = new MultiPoint(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
-        $actual     = $multiPoint->getPoint(1);
+        $multiPoint = new MultiPoint($strings);
+        $actual     = $multiPoint->getPoints();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertCount(count($strings), $actual);
+        $this->assertEquals($points, $actual);
     }
 
-    public function testMultiPointFromArraysGetLastPoint()
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointGetSinglePoint(array $strings, array $arrays, array $points)
     {
-        $expected   = new Point(array(3, 3));
-        $multiPoint = new MultiPoint(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
-        $actual     = $multiPoint->getPoint(-1);
+        $multiPoint = new MultiPoint($points);
 
-        $this->assertEquals($expected, $actual);
+        for ($i = 0; $i < count($points); $i++) {
+            $this->assertEquals($points[$i], $multiPoint->getPoint($i));
+        }
+    }
+
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointGetLastPoint(array $strings, array $arrays, array $points)
+    {
+        $multiPoint = new MultiPoint($points);
+
+        $this->assertEquals($points[count($points) - 1], $multiPoint->getPoint(-1));
+    }
+
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointAddPoint(array $strings, array $arrays, array $points)
+    {
+        $multiPoint = new MultiPoint();
+
+        foreach ($points as $point) {
+            $multiPoint->addPoint($point);
+        }
+
+        $actual = $multiPoint->getPoints();
+
+        $this->assertCount(count($points), $actual);
+        $this->assertEquals($points, $actual);
+    }
+
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointSetPoints(array $strings, array $arrays, array $points)
+    {
+        $junkPoints = array(
+            array(100, 100),
+            array(102, 102)
+        );
+
+        $multiPoint = new MultiPoint($junkPoints);
+
+        $multiPoint->setPoints($points);
+
+        $actual = $multiPoint->getPoints();
+
+        $this->assertCount(count($points), $actual);
+        $this->assertEquals($points, $actual);
+    }
+
+    /**
+     * @param array $strings
+     * @param array $arrays
+     * @param array $points
+     *
+     * @dataProvider dataSourceGoodArrayPoints
+     */
+    public function testMultiPointSrid(array $strings, array $arrays, array $points)
+    {
+        $sridPoints = array();
+
+        foreach ($arrays as $array) {
+            $sridPoints[] = new Point($array, 1234);
+        }
+
+        $multiPoint = new MultiPoint($sridPoints, 4326);
+
+        foreach ($multiPoint->getPoints() as $point) {
+            $this->assertEquals(0, $point->getSrid());
+        }
     }
 
     /**
      * Test MultiPoint bad parameter
      *
-     * @expectedException        \Exception
+     * @expectedException        \CrEOF\Geo\Exception\UnexpectedValueException
+     * @expectedExceptionMessage Unexpected value of type "integer"
      */
     public function testBadLineString()
     {
@@ -137,5 +210,74 @@ class MultiPointTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($expected, (string) $multiPoint);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function dataSourceGoodArrayPoints()
+    {
+        $dataSet = array();
+
+        foreach ($this->dataSourceGoodArrayArrays() as $resultSet) {
+            list($stringSet, $arraySet) = $resultSet;
+
+            $arrayPoints = array();
+
+            foreach ($arraySet as $array) {
+                $arrayPoints[] = new Point($array);
+            }
+
+            $dataSet[] = array($stringSet, $arraySet, $arrayPoints);
+        }
+
+        return $dataSet;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function dataSourceGoodArrayArrays()
+    {
+        $dataSet = array();
+
+        foreach ($this->dataSourceGoodStringArrays() as $stringSet) {
+            $arraySet = array();
+
+            foreach ($stringSet as $string) {
+                $parser         = new Parser($string);
+                $arraySet[] = $parser->parse();
+            }
+
+            $dataSet[] = array($stringSet, $arraySet);
+        }
+
+        return $dataSet;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function dataSourceGoodStringArrays()
+    {
+        return array(
+            array(
+                '0, 0',
+                '1, 1',
+                '2, 2',
+                '3, 3'
+            ),
+            array(
+                '0 0',
+                '0 5',
+                '5 0',
+                '0 0'
+            ),
+            array(
+                '44°58\'53.9"N 93°19\'25.8"W',
+                '41°49\'30.4"N 87°40\'49.6"W',
+                '35°29\'20.7"N 97°33\'38.0"W'
+            )
+        );
     }
 }
