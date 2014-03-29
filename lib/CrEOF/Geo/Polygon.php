@@ -23,6 +23,8 @@
 
 namespace CrEOF\Geo;
 
+use CrEOF\Geo\Exception\UnexpectedValueException;
+
 /**
  * Polygon object
  *
@@ -109,7 +111,7 @@ class Polygon extends AbstractGeometry
         }
 
         if ( ! $value->isClosed()) {
-            throw new \Exception(); // TODO
+            throw new UnexpectedValueException(sprintf('Ring "%s" in polygon is not closed', $value));
         }
 
         return $value;
