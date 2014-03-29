@@ -24,7 +24,6 @@
 namespace CrEOF\Geo\Tests;
 
 use CrEOF\Geo\LineString;
-use CrEOF\Geo\Point;
 
 /**
  * LineString object tests
@@ -34,86 +33,6 @@ use CrEOF\Geo\Point;
  */
 class LineStringTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEmptyLineString()
-    {
-        $lineString = new LineString();
-
-        $this->assertEmpty($lineString->getPoints());
-    }
-
-    public function testLineStringFromObjectsToArray()
-    {
-        $expected   = array(
-            array(0, 0),
-            array(1, 1),
-            array(2, 2),
-            array(3, 3)
-        );
-        $lineString = new LineString(array(
-            new Point(array(0, 0)),
-            new Point(array(1, 1)),
-            new Point(array(2, 2)),
-            new Point(array(3, 3))
-        ));
-
-        $this->assertCount(4, $lineString->getPoints());
-        $this->assertEquals($expected, $lineString->toArray());
-    }
-
-    public function testLineStringFromArraysGetPoints()
-    {
-        $expected   = array(
-            new Point(array(0, 0)),
-            new Point(array(1, 1)),
-            new Point(array(2, 2)),
-            new Point(array(3, 3))
-        );
-        $lineString = new LineString(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
-        $actual     = $lineString->getPoints();
-
-        $this->assertCount(4, $actual);
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testLineStringFromArraysGetSinglePoint()
-    {
-        $expected   = new Point(array(1, 1));
-        $lineString = new LineString(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
-        $actual     = $lineString->getPoint(1);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testLineStringFromArraysGetLastPoint()
-    {
-        $expected   = new Point(array(3, 3));
-        $lineString = new LineString(
-            array(
-                array(0, 0),
-                array(1, 1),
-                array(2, 2),
-                array(3, 3)
-            )
-        );
-        $actual     = $lineString->getPoint(-1);
-
-        $this->assertEquals($expected, $actual);
-    }
-
     public function testLineStringFromArraysIsOpen()
     {
         $lineString = new LineString(
@@ -140,30 +59,5 @@ class LineStringTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($lineString->isClosed());
-    }
-
-    /**
-     * Test LineString bad parameter
-     *
-     * @expectedException        \Exception
-     */
-    public function testBadLineString()
-    {
-        new LineString(array(1, 2, 3 ,4));
-    }
-
-    public function testLineStringFromArraysToString()
-    {
-        $expected   = '0 0,0 5,5 0,0 0';
-        $lineString = new LineString(
-            array(
-                array(0, 0),
-                array(0, 5),
-                array(5, 0),
-                array(0, 0)
-            )
-        );
-
-        $this->assertEquals($expected, (string) $lineString);
     }
 }
