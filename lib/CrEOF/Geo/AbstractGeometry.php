@@ -142,15 +142,15 @@ abstract class AbstractGeometry implements GeometryInterface
     }
 
     /**
-     * @param mixed $values
+     * @param mixed $value
      *
      * @return self
      */
-    protected function addValue($values)
+    protected function addValue($value)
     {
-        $values = $this->getValidObject($values);
+        $value = $this->getValidObject($value);
 
-        $this->values[] = $values->setSrid(0);
+        $this->values[] = $value->setSrid(0);
 
         return $this;
     }
