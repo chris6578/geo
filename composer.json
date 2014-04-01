@@ -2,7 +2,7 @@
     "name"             : "creof/geo",
     "type"             : "library",
     "description"      : "PHP Geometry/Geography classes",
-    "keywords"         : ["geometry", "geography"],
+    "keywords"         : ["geometry", "geography", "spatial", "geo", "coordinate", "point", "multipoint", "linestring", "multilinestring", "polygon", "multipolygon"],
     "authors"          : [
         {
             "name" : "Derek J. Lambert",
